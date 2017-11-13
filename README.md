@@ -8,7 +8,7 @@ before your sleeping bag gets soaked in mud?
 ---
 
 This is a sample complex project I have worked on. This application demonstrates proficiency in:
-* Express
-  * Routes 
-* Node.js
-* Markdown
+- Express
+  - Routes 
+- Node.js
+- Markdown
