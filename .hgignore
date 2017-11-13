@@ -1,0 +1,4 @@
+.*\/node_modules\/.+
+
+syntax: glob
+*.c9/*
