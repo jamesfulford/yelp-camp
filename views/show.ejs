@@ -1,0 +1,18 @@
+<% include partials/header %>
+
+ 
+<div class="camp col-md-6 col-sm-12">
+    <div class="thumbnail">
+        <h4> 
+            <a href="/campgrounds/<%= camp._id %>">
+                <%= camp.name %> 
+            </a>
+        </h4>
+        <img src="<%= camp.image %>" />
+        <p>
+            <%= camp.description %>
+        </p>
+    </div>
+</div>
+
+<% include partials/footer %>
