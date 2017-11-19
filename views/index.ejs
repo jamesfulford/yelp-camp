@@ -22,8 +22,17 @@
     
     <div class="camp col-md-3 col-sm-6">
         <div class="thumbnail">
-            <h4> <%= camp.name %> </h4>
+            <h4> 
+                <a href="/campgrounds/<%= camp._id %>">
+                    <%= camp.name %> 
+                </a>
+            </h4>
             <img src="<%= camp.image %>" />
+            <p>
+                <a href="/campgrounds/<%= camp._id %>" class="btn btn-primary">
+                    More Information
+                </a>
+            </p>
         </div>
     </div>
         

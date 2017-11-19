@@ -10,7 +10,8 @@ app.set("view engine", "ejs");
 
 var campgroundSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 var Campground = mongoose.model("Campground", campgroundSchema);
 
@@ -19,32 +20,57 @@ app.get("/", function(req, res) {
     res.render("landing");
 });
 
+//
+// Campgrounds
+//
+// INDEX
 app.get("/campgrounds", function(req, res) {
     Campground.find({}, function(err, campgrounds) {
         if(err) {
+            console.log(err);
             res.send("Error: " + err);
         } else {
-            res.render("campgrounds", {campgrounds: campgrounds});
+            res.render("index.ejs", {campgrounds: campgrounds});
         }
     });
 });
+
+// NEW
+app.get("/campgrounds/new", function(req, res) {
+    res.render("new");
+});
+// CREATE
 app.post("/campgrounds", function(req, res) {
-    Campground.create(
-        req.body,
+    // Add to database, redirect to campgrounds
+    Campground.create(req.body,
         function(err, campground) {
             if(err){
                 console.log(err);
                 res.send("Error: " + err);
             } else {
+                // redirect on success
                 res.redirect("/campgrounds");
             }
         }
     );
 });
-app.get("/campgrounds/new", function(req, res) {
-    res.render("newcamp");
+
+// SHOW
+app.get("/campgrounds/:id", function(req, res) {
+    Campground.findById( req.params.id, function(err, camp) {
+        if(err) {
+            console.log(err);
+            res.send("Error: " + err);
+        } else {
+            res.render("show", {camp: camp});    
+        }
+    });
 });
 
+
+//
+// Serving
+//
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("Yelp-Camp server started.");
 });
