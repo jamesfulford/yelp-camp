@@ -10,8 +10,18 @@
         </h4>
         <img src="<%= camp.image %>" />
         <p>
-            <%= camp.description %>
+            <%- camp.description %>
         </p>
+    </div>
+    <div>
+        <% camp.comments.forEach(function(comment) { %>
+        
+        <div>
+            <blockquote><%- comment.text %></blockquote>
+            - <%= comment.author %>
+        </div>
+         
+        <% }); %>
     </div>
 </div>
 
