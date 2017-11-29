@@ -1,20 +1,32 @@
+// Dependencies
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var express = require("express");
-var app = express();
 
-mongoose.connect("mongodb://localhost/yelpcamp");
+// Models
+var Campground = require("./models/campground");
+var Comment = require("./models/comment");
+
+//
+// Configure
+//
+
+var app = express();
+mongoose.connect("mongodb://localhost/yelpcamp", { useMongoClient: true });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
+//
+// Pre-server
+//
 
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-var Campground = mongoose.model("Campground", campgroundSchema);
+var seedDB = require("./seeds");
+seedDB();
 
+
+//
+// Routes
+//
 
 app.get("/", function(req, res) {
     res.render("landing");
@@ -23,6 +35,7 @@ app.get("/", function(req, res) {
 //
 // Campgrounds
 //
+
 // INDEX
 app.get("/campgrounds", function(req, res) {
     Campground.find({}, function(err, campgrounds) {
@@ -57,7 +70,7 @@ app.post("/campgrounds", function(req, res) {
 
 // SHOW
 app.get("/campgrounds/:id", function(req, res) {
-    Campground.findById( req.params.id, function(err, camp) {
+    Campground.findById(req.params.id).populate("comments").exec(function(err, camp) {
         if(err) {
             console.log(err);
             res.send("Error: " + err);
