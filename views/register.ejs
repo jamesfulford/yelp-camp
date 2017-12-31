@@ -1,0 +1,15 @@
+<% include partials/header %>
+
+<h1>Sign up!</h1>
+
+<form action="/register" method="POST">
+    <label for="username">Username</label>
+    <input id="username" type="text" name="username"></input>
+    
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password"></input>
+    
+    <button>Sign up!</button>
+</form>
+
+<% include partials/footer %>
