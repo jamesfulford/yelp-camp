@@ -24,8 +24,8 @@ app.use(express.static(__dirname + "/public"));
 // Pre-server
 //
 
-var seedDB = require("./seeds");
-seedDB();
+// var seedDB = require("./seeds");
+// seedDB();
 
 
 //
