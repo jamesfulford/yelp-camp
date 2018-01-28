@@ -29,14 +29,23 @@ router.get("/", function(req, res) {
 });
 
 // NEW
-router.get("/new", function(req, res) {
+router.get("/new", isLoggedIn, function(req, res) {
     res.render("campgrounds/new");
 });
 
 // CREATE
-router.post("/", function(req, res) {
+router.post("/", isLoggedIn, function(req, res) {
     // Add to database, redirect to campgrounds
-    Campground.create(req.body.campground,
+    var newCampground = {
+        name: req.body.campground.name,
+        image: req.body.campground.image,
+        description: req.body.campground.description,  // TODO: sanitize
+        author: {
+            username: req.user.username,
+            id: req.user._id,
+        }
+    };
+    Campground.create(newCampground,
         function(err, campground) {
             if(err){
                 console.log(err);
