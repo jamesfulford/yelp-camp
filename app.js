@@ -1,5 +1,6 @@
 // Dependencies
 var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
 var mongoose = require("mongoose");
 var express = require("express");
 var passport = require("passport");
@@ -13,19 +14,19 @@ var Comment = require("./models/comment");
 //
 // Configure
 //
-
 var app = express();
 mongoose.connect("mongodb://localhost/yelpcamp", { useMongoClient: true });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 
 //
 // Pre-server
 //
 
-// var seedDB = require("./seeds");
-// seedDB();
+var seedDB = require("./seeds");
+seedDB();
 
 
 //
@@ -53,8 +54,6 @@ app.use(function(req, res, next) {
 //
 // Routes
 //
-
-
 app.use(require("./routes/index"));
 app.use(require("./routes/auth"));
 app.use("/campgrounds", require("./routes/campgrounds"));

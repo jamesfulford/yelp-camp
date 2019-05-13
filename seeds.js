@@ -28,27 +28,27 @@ function seedDB() {
             console.log(err);
         } else {
             console.log("Removed campgrounds");
-            // data.forEach(function(seed) {
-            //     Campground.create(seed, function(err, newCamp) {
-            //         if(err) {
-            //             console.log(err);
-            //         } else {
-            //             console.log("Added " + newCamp.name);
-            //             Comment.create({
-            //                 text: "No internet access",
-            //                 author: "Homer"
-            //             }, function(err, comment) {
-            //                 if(err) {
-            //                     console.log(err);
-            //                 } else {
-            //                     newCamp.comments.push(comment);
-            //                     newCamp.save();
-            //                     console.log("Created comment");
-            //                 }
-            //             });
-            //         }
-            //     });
-            // });
+            data.forEach(function(seed) {
+                Campground.create(seed, function(err, newCamp) {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log("Added " + newCamp.name);
+                        Comment.create({
+                            text: "No internet access",
+                            author: "Homer"
+                        }, function(err, comment) {
+                            if(err) {
+                                console.log(err);
+                            } else {
+                                newCamp.comments.push(comment);
+                                newCamp.save();
+                                console.log("Created comment");
+                            }
+                        });
+                    }
+                });
+            });
         }
     }); 
 }
