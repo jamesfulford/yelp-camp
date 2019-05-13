@@ -24,14 +24,19 @@
                 <p>
                     <em>Submitted by <%= campground.author.username %></em>
                 </p>
+                <% if (currentUser && campground.author.id.equals(currentUser._id)) { %>
                 <a href="/campgrounds/<%= campground.id %>/edit" class="btn btn-warning">Edit</a>
+                <form id="delete-campground-button" action="/campgrounds/<%= campground.id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+                <% } %>
             </div>
         </div>
         <div class="well">
             <div class="text-right">
                 <a class="btn btn-success" href="/campgrounds/<%= campground.id %>/comments/new">
                     Add your comment
-                </a>    
+                </a>
             </div>
             <hr>
             <div>

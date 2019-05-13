@@ -10,3 +10,7 @@
 .thumbnail .caption-full {
     padding: 9px;
 }
+
+#delete-campground-button {
+    display: inline;
+}
