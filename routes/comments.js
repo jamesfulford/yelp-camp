@@ -2,7 +2,7 @@ var router = require("express").Router({mergeParams: true});
 
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
-var middleware = require("./_middleware");
+var middleware = require("../middleware");
 
 //
 // Nested Comments Routes
