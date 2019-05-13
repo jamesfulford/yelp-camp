@@ -14,3 +14,7 @@
 #delete-campground-button {
     display: inline;
 }
+
+.delete-comment-button {
+    display: inline;
+}

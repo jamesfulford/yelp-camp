@@ -49,6 +49,15 @@
                             10 days ago
                         </span>
                         <blockquote><%- comment.text %></blockquote>
+                        
+                        <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
+                        <a class="btn btn-warning" href="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>/edit">Edit</a>
+                        <form class="delete-comment-button" action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                        <% } %>
+                
+                        
                     </div>
                 </div>
                 

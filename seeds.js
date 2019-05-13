@@ -48,7 +48,10 @@ function seedDB() {
                         console.log("Added " + newCamp.name);
                         Comment.create({
                             text: "No internet access",
-                            author: "Homer"
+                            author: {
+                                id : "498c2e092403d111454fff22",
+                                username: "Jack",
+                            },
                         }, function(err, comment) {
                             if(err) {
                                 console.log(err);

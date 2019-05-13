@@ -50,4 +50,43 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     });
 });
 
+// EDIT
+router.get("/:commentId/edit", middleware.commentOwnershipMatches, function (req, res) {
+    Campground.findById(req.params.id, function (err, campground) {
+        if (err) {
+            console.log(err);
+            return res.redirect("back");
+        }
+        Comment.findById(req.params.commentId, function (err, comment) { 
+            if (err) {
+                console.log(err);
+                return res.redirect("back");
+            }
+            res.render("comments/edit", { campground: campground, comment: comment });
+        });
+    });
+});
+
+// UPDATE
+router.put("/:commentId", middleware.commentOwnershipMatches, function (req, res) {
+    Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, function (err, comment) {
+        if (err) {
+            console.log(err);
+            return res.redirect("back");
+        }
+        res.redirect("/campgrounds/" + req.params.id)
+    });
+});
+
+// DELETE
+router.delete("/:commentId", middleware.commentOwnershipMatches, function (req, res) {
+    Comment.findByIdAndRemove(req.params.commentId, function (err, comment) {
+        if (err) {
+            console.log(err);
+            return res.redirect("back");
+        }
+        res.redirect("/campgrounds/" + req.params.id);
+    });
+})
+
 module.exports = router;
