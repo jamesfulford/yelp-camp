@@ -16,7 +16,7 @@ var Comment = require("./models/comment");
 // Configure
 //
 var app = express();
-mongoose.connect("mongodb://localhost/yelpcamp", { useMongoClient: true });
+mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/yelpcamp', { useMongoClient: true });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
