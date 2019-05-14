@@ -4,6 +4,7 @@ var methodOverride = require("method-override");
 var mongoose = require("mongoose");
 var express = require("express");
 var passport = require("passport");
+var flash = require("connect-flash");
 var localStrategy = require("passport-local");
 
 // Models
@@ -20,6 +21,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(require("express-session")({
+    secret: "jellyjellyjellyfish",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(flash());
 
 //
 // Pre-server
@@ -32,11 +39,6 @@ seedDB();
 //
 // PASSPORT CONFIGURATION
 //
-app.use(require("express-session")({
-    secret: "jellyjellyjellyfish",
-    resave: false,
-    saveUninitialized: false
-}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -48,6 +50,8 @@ passport.deserializeUser(User.deserializeUser());
 // Universal Middleware
 app.use(function(req, res, next) {
     res.locals.currentUser = req.user;  // every ejs now has access to currentUser
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
     next();
 });
 

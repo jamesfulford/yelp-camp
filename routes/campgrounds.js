@@ -13,7 +13,8 @@ router.get("/", function(req, res) {
     Campground.find({}, function(err, campgrounds) {
         if(err) {
             console.log(err);
-            res.send("Error: " + err);
+            req.flash("error", "Unable to load campgrounds");
+            res.redirect("/")
         } else {
             res.render("campgrounds/index", {campgrounds: campgrounds});
         }
@@ -41,9 +42,11 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
         function(err, campground) {
             if(err){
                 console.log(err);
-                res.send("Error: " + err);
+                req.flash("error", "Unable to create new campgrounds at this time");
+                res.redirect("/campgrounds");
             } else {
                 // redirect on success
+                req.flash("success", "Successfully added campground");
                 res.redirect("/campgrounds");
             }
         }
@@ -55,9 +58,11 @@ router.get("/:id", function(req, res) {
     Campground.findById(req.params.id).populate("comments").exec(function(err, campground) {
         if(err) {
             console.log(err);
+            req.flash("error", "Unable to find that campground");
             res.redirect("/campgrounds");
         } else if (!campground) {
             console.log("Campground " + req.params.id + " not found!");
+            req.flash("error", "Unable to find that campground");
             res.redirect("/campgrounds");
         } else {
             console.log(campground)
@@ -71,6 +76,7 @@ router.get("/:id/edit", middleware.campgroundOwnershipMatches, function (req, re
     Campground.findById(req.params.id).exec(function(err, campground) {
         if(err) {
             console.log(err);
+            req.flash("error", "Cannot find that campground");
             res.redirect("/campgrounds");
         } else {
             res.render("campgrounds/edit", { campground: campground });
@@ -83,8 +89,10 @@ router.put("/:id", middleware.campgroundOwnershipMatches, function (req, res) {
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function (err, updatedCampground) {
        if (err) {
            console.log(err);
-           res.redirect("/campgrounds");
+           req.flash("error", "Could not update campground at this time");
+           res.redirect("/campgrounds/" + req.params.id);
        } else {
+           req.flash("success", "Successfully updated campground");
            res.redirect("/campgrounds/" + req.params.id);
        }
    });
@@ -95,13 +103,17 @@ router.delete("/:id", middleware.campgroundOwnershipMatches, (req, res) => {
     Campground.findByIdAndRemove(req.params.id, (err, campgroundRemoved) => {
         if (err) {
             console.log(err);
+            req.flash("error", "Could not delete campground at this time");
+            res.redirect("/campgrounds" + req.params.id);
+        } else {
+            req.flash("success", "Successfully removed campground");
+            Comment.deleteMany( {_id: { $in: campgroundRemoved.comments } }, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect("/campgrounds");
+            });
         }
-        Comment.deleteMany( {_id: { $in: campgroundRemoved.comments } }, (err) => {
-            if (err) {
-                console.log(err);
-            }
-            res.redirect("/campgrounds");
-        });
     })
 });
 
