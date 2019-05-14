@@ -32,11 +32,12 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
     var newCampground = {
         name: req.body.campground.name,
         image: req.body.campground.image,
-        description: req.body.campground.description,  // TODO: sanitize
+        description: req.body.campground.description,
+        price: req.body.campground.price,
         author: {
             username: req.user.username,
             id: req.user._id,
-        }
+        },
     };
     Campground.create(newCampground,
         function(err, campground) {
@@ -47,7 +48,7 @@ router.post("/", middleware.isLoggedIn, function(req, res) {
             } else {
                 // redirect on success
                 req.flash("success", "Successfully added campground");
-                res.redirect("/campgrounds");
+                res.redirect("/campgrounds/" + campground.id);
             }
         }
     );

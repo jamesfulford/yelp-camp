@@ -13,6 +13,7 @@ var data = [
             id : "588c2e092403d111454fff71",
             username: "Jill",
         },
+        price: "17.99",
     },
     {
         name: "Lake Kela",
@@ -22,6 +23,7 @@ var data = [
             id : "588c2e092403d111454fff71",
             username: "Jill",
         },
+        price: "6.99",
     },
     {
         name: "Rake Farm",
@@ -31,6 +33,7 @@ var data = [
             id : "498c2e092403d111454fff22",
             username: "Jack",
         },
+        price: "4.67",
     },
 ];
 
